@@ -10,6 +10,7 @@ import numpy as np
 from dense import Dense
 from activations import Tanh
 from losses import mse, mse_prime
+from network import infer, train
 
 print( "Hi there." )
 
@@ -30,44 +31,16 @@ network = [
 	Tanh()
 ]
 
-# Train parameters
-print( "Set up training parameters..." )
-epochs = 10000
-learning_rate = 0.1
-
-# train
+# Train
 print( "Starting training..." )
-for e in range( epochs ):
-	error = 0
-	for x, y in zip(X, Y):
-		
-		# Forward: The inference part
-		# The output of a layer is the input of the next layer
-		output = x
-		for layer in network:
-			output = layer.forward( output )
-		
-		# Error
-		# Mostly for display
-		error += mse( y, output )
-		
-		# Backward: The learning part
-		# The input of a layer is the output of the previous one
-		# but as we scan the network backwards, first inverse the output of the network
-		gradient = mse_prime( y, output )
-		for layer in reversed( network ):
-			gradient = layer.backward( gradient, learning_rate )
-		
-	error /= len( X )
-	print( f"{e+1}/{epochs} error={error}" )
+train( network, X, Y, mse, mse_prime, epochs = 10000, learning_rate = 0.1, verbose=True )
 
+# Infer
+print( "Infers to check results..." )
 
-
-
-
-
-
-
+for test_case in [ [[0],[0]], [[0],[1]], [[1],[0]], [[1],[1]] ]:
+	print( f"{test_case} :", end='' )
+	print( infer( network, test_case) )
 
 
 
