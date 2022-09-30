@@ -1,0 +1,8 @@
+HIGH	"Libify" the LNN
+HIGH	Add network saving function
+HIGH	Add network loading function
+
+Med	Add network display function
+
+low	Add other activations functions
+low	Add other losses functions
